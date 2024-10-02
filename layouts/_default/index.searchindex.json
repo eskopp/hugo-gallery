@@ -1,0 +1,16 @@
+{{- $items := slice -}}
+{{- $pages := .Site.RegularPages -}}
+{{- $pages = where $pages "Params.noindex" "ne" true -}}
+{{- $pages = where $pages "Params.private" "ne" true -}}
+{{- $pages = where $pages "Layout" "eq" "" -}}
+{{- range $pages -}}
+  {{- $item := newScratch -}}
+  {{- $item.Set "title" .Title -}}
+  {{- $item.Set "summary" (default .Summary .Description | plainify | htmlUnescape) -}}
+  {{- $item.Set "kind" .Kind -}}
+  {{- $item.Set "lang" .Language.Lang -}}
+  {{- $item.Set "url" .RelPermalink -}}
+  {{- $item.Set "date" .Date.Unix -}}
+  {{- $items = $items | append $item.Values -}}
+{{- end -}}
+{{- $items | jsonify -}}

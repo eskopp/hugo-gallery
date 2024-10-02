@@ -1,0 +1,5 @@
+{{/* Search */}}
+{{ $searchCSS := resources.Get "css/search.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $searchCSS.RelPermalink }}" />
+{{ $searchJS := partial "search/assets/js-resource" . | js.Build (dict "minify" true) | resources.Fingerprint }}
+<script src="{{ $searchJS.RelPermalink }}" defer></script>
